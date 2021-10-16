@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Item
+  - Ritual
   layers:
   - Default
   - TransparentFX
@@ -12,15 +14,15 @@ TagManager:
   - 
   - Water
   - UI
+  - Player
+  - DetectPlayer
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Wall
+  - Obstacle
   - 
   - 
   - 

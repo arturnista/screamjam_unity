@@ -15,6 +15,7 @@ namespace Game.Entity
 
         protected EntityData _entityData;
         protected Rigidbody2D _rigidbody;
+        protected CircleCollider2D _collider;
 
         protected Vector2 _targetVelocity;
         protected Vector2 _velocity;
@@ -33,6 +34,7 @@ namespace Game.Entity
         {            
             _entityData = GetComponent<EntityData>();
             _rigidbody = GetComponent<Rigidbody2D>();
+            _collider = GetComponent<CircleCollider2D>();
             _animator = GetComponent<Animator>();
 
             _collisionFilter = new ContactFilter2D()
@@ -57,7 +59,10 @@ namespace Game.Entity
 
             if (_isMoving)
             {
-                _targetVelocity = _entityData.MoveDirection.normalized * _moveSpeed;
+                var speedDiff = Vector3.Dot(_entityData.LookDirection.normalized, _entityData.MoveDirection.normalized);
+                speedDiff = speedDiff < 0f ? .7f : 1f;
+
+                _targetVelocity = _entityData.MoveDirection.normalized * _moveSpeed * speedDiff;
             }
             else
             {
@@ -85,7 +90,7 @@ namespace Game.Entity
             }
             
             Vector2 motion = _velocity * Time.fixedDeltaTime;
-            int collidingAmount = _rigidbody.Cast(motion.normalized, _collisionFilter, _collisionResults, motion.magnitude);
+            int collidingAmount = _collider.Cast(motion.normalized, _collisionFilter, _collisionResults, motion.magnitude);
             if (collidingAmount > 0)
             {
                 for (int i = 0; i < collidingAmount; i++)
@@ -99,6 +104,7 @@ namespace Game.Entity
                 }
             }
 
+            _animator.speed = _velocity.magnitude / 3f;
             _rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
         }
 

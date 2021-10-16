@@ -11,13 +11,29 @@ namespace Game.Entity
         public Vector3 MoveDirection { get; set; }
         public Vector3 LookDirection { get; set; }
 
-        public EntityMovement Movement { get; protected set; }
-        public EntityHealth Health { get; protected set; }
-
-        private void Awake()
+        private EntityMovement _movement;
+        public EntityMovement Movement
         {
-            Movement = GetComponent<EntityMovement>();
-            Health = GetComponent<EntityHealth>();
+            get
+            {
+                if (_movement == null) SetupDeps();
+                return _movement;
+            }
+        }
+        private EntityHealth _health;
+        public EntityHealth Health
+        {
+            get
+            {
+                if (_health == null) SetupDeps();
+                return _health;
+            }
+        }
+
+        private void SetupDeps()
+        {
+            _movement = GetComponent<EntityMovement>();
+            _health = GetComponent<EntityHealth>();
         }
 
     }

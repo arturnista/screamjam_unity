@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24797c28d577b8d49ad6da883e018288, type: 3}
+  m_Name: Chalice
+  m_EditorClassIdentifier: 
+  Name: Chalice
+  Image: {fileID: 21300000, guid: afee119f22c3a3e4a8e43f9955e6c0ae, type: 3}
