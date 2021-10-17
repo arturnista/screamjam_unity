@@ -11,12 +11,16 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] float bulletForce = 10f;
     [SerializeField] Light2D fireLight;
+    [Header("SFX")]
+    [SerializeField] private List<AudioClip> _fireSounds;
 
     private EntityData _entityData;
+    private AudioSource _audioSource;
 
     private void Awake()
     {
         _entityData = GetComponentInParent<EntityData>();
+        _audioSource = GetComponentInParent<AudioSource>();
     }
 
     private void OnEnable()
@@ -47,6 +51,10 @@ public class PlayerAttack : MonoBehaviour
         Rigidbody2D bulletRb =  bullet.GetComponent<Rigidbody2D>();
 
         bulletRb.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
+        if (_fireSounds.Count > 0)
+        {
+            _audioSource.PlayOneShot(_fireSounds[Random.Range(0, _fireSounds.Count)]);
+        }
 
         StopAllCoroutines();
         StartCoroutine(FireLightCoroutine());
