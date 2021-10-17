@@ -114,6 +114,8 @@ namespace Game.Entity
             if (_entityData.LookDirection.x != 0f && lookSign != Mathf.Sign(transform.localScale.x))
             {
                 StartCoroutine(FlipCoroutine(lookSign));
+                if (lookSign > 0) _entityData.RotationSum = Vector3.zero;
+                else _entityData.RotationSum = new Vector3(0f, 0f, 180);
             }
         }
 

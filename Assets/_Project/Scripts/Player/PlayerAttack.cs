@@ -11,6 +11,8 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] float bulletForce = 10f;
     [SerializeField] Light2D fireLight;
+    [Header("Sprite")]
+    [SerializeField] private GameObject _musketArms;
     [Header("SFX")]
     [SerializeField] private List<AudioClip> _fireSounds;
 
@@ -26,19 +28,23 @@ public class PlayerAttack : MonoBehaviour
     private void OnEnable()
     {
         firePoint.gameObject.SetActive(true);
+        _musketArms.gameObject.SetActive(true);
     }
 
     private void OnDisable()
     {
         fireLight.gameObject.SetActive(false);
         firePoint.gameObject.SetActive(false);
+        _musketArms.gameObject.SetActive(false);
     }
     
     private void Update()
     {
-        firePoint.position = _entityData.LookDirection + transform.position;
-        float angle = Mathf.Atan2(_entityData.LookDirection.y, _entityData.LookDirection.x) * Mathf.Rad2Deg - 90f;
-        firePoint.eulerAngles = new Vector3(0, 0, angle);
+        var lookingDirection = _entityData.LookDirection.normalized;
+        // firePoint.position = lookingDirection + (transform.position - new Vector3(0f, .5f));
+        float angle = Mathf.Atan2(lookingDirection.y, lookingDirection.x) * Mathf.Rad2Deg;
+        _musketArms.transform.eulerAngles = new Vector3(0, 0, angle) + _entityData.RotationSum;
+        // firePoint.eulerAngles = new Vector3(0, 0, angle - 90f);
         if (Input.GetButtonDown("Fire1"))
         {
             Shoot();

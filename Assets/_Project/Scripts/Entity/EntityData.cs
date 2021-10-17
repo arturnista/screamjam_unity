@@ -10,6 +10,7 @@ namespace Game.Entity
 
         public Vector3 MoveDirection { get; set; }
         public Vector3 LookDirection { get; set; }
+        public Vector3 RotationSum { get; set; }
 
         private EntityMovement _movement;
         public EntityMovement Movement
