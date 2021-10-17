@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collider.gameObject.CompareTag("Player"))
         {
-            var health = collision.gameObject.GetComponent<EntityHealth>();
-            health.DealDamage(1f);
+            return;
+        }
+        else if (collider.gameObject.CompareTag("Enemy"))
+        {
+            var health = collider.gameObject.GetComponent<EntityHealth>();
+            health.DealDamage(1);
         }
         Destroy(gameObject);
     }

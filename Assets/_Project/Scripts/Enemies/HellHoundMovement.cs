@@ -88,7 +88,7 @@ namespace Game.Entity
             _detectPlayer.OnLosePlayer += HandleLosePlayer;
         }
 
-        private void HandleDamage(float dmg)
+        private void HandleDamage(int dmg)
         {
             _runningTime = 2f;
             _moveSpeed = _dodgeMoveSpeed;
@@ -278,7 +278,7 @@ namespace Game.Entity
             if (!_aiSeeker.IsDone()) return;
 
             // _path = null;
-            _aiSeeker.StartPath(transform.position, _targetPosition, (path) => {
+            _aiSeeker.StartPath(transform.position, target, (path) => {
                 _waypointIndex = 0;
                 if (!path.error)
                 {

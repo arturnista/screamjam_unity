@@ -5,7 +5,7 @@ using UnityEngine;
 public class EntityHealth : MonoBehaviour
 {
     
-    public delegate void DamageHandler(float damage);
+    public delegate void DamageHandler(int damage);
     public event DamageHandler OnDamage;
 
     [SerializeField] private List<AudioClip> _damageSounds = default;
@@ -17,7 +17,7 @@ public class EntityHealth : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    public virtual void DealDamage(float damage)
+    public virtual void DealDamage(int damage)
     {
         _audioSource.PlayOneShot(_damageSounds[Random.Range(0, _damageSounds.Count)]);
         OnDamage?.Invoke(damage);

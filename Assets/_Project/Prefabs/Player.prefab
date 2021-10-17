@@ -325,7 +325,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.4
-  m_Color: {r: 1, g: 0.8, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.9084906, b: 0.5424528, a: 1}
   m_Intensity: 0.5
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 9987b28d00000000efdb1f85
@@ -337,8 +337,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensity: 0
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 3
-  m_PointLightOuterRadius: 10
+  m_PointLightInnerRadius: 2
+  m_PointLightOuterRadius: 9
   m_PointLightDistance: 3
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 5
@@ -5552,15 +5552,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4043124478832579968}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7163019, w: 0.69779044}
-  m_LocalPosition: {x: 0.968, y: -0.12, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7278924, w: 0.6856914}
+  m_LocalPosition: {x: 0.325, y: -0.076, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7115573598759206071}
   - {fileID: 8821476204603460192}
   m_Father: {fileID: 8851700536095403415}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -91.5}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -93.42}
 --- !u!1 &4043124478889219875
 GameObject:
   m_ObjectHideFlags: 0
@@ -5609,9 +5609,11 @@ MonoBehaviour:
   bulletPrefab: {fileID: 6341111312308529627, guid: 64826b5c529ec7347b8cc64ef630fb07, type: 3}
   bulletForce: 10
   fireLight: {fileID: 3504661422951875198}
+  _reloadCooldown: 4
   _musketArms: {fileID: 4376699907857960607}
   _fireSounds:
   - {fileID: 8300000, guid: f91ed29e2d6f17d44baee67392ee53d6, type: 3}
+  _reloadSound: {fileID: 8300000, guid: 0d8ba12077410a142a641178c7ef7ac1, type: 3}
 --- !u!1 &4043124479707505977
 GameObject:
   m_ObjectHideFlags: 0

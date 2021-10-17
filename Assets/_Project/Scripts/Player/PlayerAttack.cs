@@ -11,13 +11,16 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] float bulletForce = 10f;
     [SerializeField] Light2D fireLight;
+    [SerializeField] private float _reloadCooldown = 4f;
     [Header("Sprite")]
     [SerializeField] private GameObject _musketArms;
     [Header("SFX")]
     [SerializeField] private List<AudioClip> _fireSounds;
+    [SerializeField] private AudioClip _reloadSound;
 
     private EntityData _entityData;
     private AudioSource _audioSource;
+    private float _attackTime;
 
     private void Awake()
     {
@@ -29,6 +32,12 @@ public class PlayerAttack : MonoBehaviour
     {
         firePoint.gameObject.SetActive(true);
         _musketArms.gameObject.SetActive(true);
+
+        if (_attackTime > 0f)
+        {
+            _attackTime = _reloadCooldown;
+            StartCoroutine(PlayReloadSoundCoroutine());
+        }
     }
 
     private void OnDisable()
@@ -40,6 +49,8 @@ public class PlayerAttack : MonoBehaviour
     
     private void Update()
     {
+        _attackTime -= Time.deltaTime;
+
         var lookingDirection = _entityData.LookDirection.normalized;
         // firePoint.position = lookingDirection + (transform.position - new Vector3(0f, .5f));
         float angle = Mathf.Atan2(lookingDirection.y, lookingDirection.x) * Mathf.Rad2Deg;
@@ -53,6 +64,8 @@ public class PlayerAttack : MonoBehaviour
 
     void Shoot()
     {
+        if (_attackTime > 0f) return;
+
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation); 
         Rigidbody2D bulletRb =  bullet.GetComponent<Rigidbody2D>();
 
@@ -62,8 +75,25 @@ public class PlayerAttack : MonoBehaviour
             _audioSource.PlayOneShot(_fireSounds[Random.Range(0, _fireSounds.Count)]);
         }
 
+        ScreenShake.Shake(.03f, 1.5f, 0f);
+
+        _attackTime = _reloadCooldown;
         StopAllCoroutines();
+        StartCoroutine(PlayReloadSoundCoroutine());
         StartCoroutine(FireLightCoroutine());
+    }
+
+    private IEnumerator PlayReloadSoundCoroutine()
+    {
+        if (_attackTime > _reloadSound.length)
+        {
+            yield return new WaitForSeconds(_reloadSound.length - _attackTime);
+            _audioSource.PlayOneShot(_reloadSound);
+        }
+        else
+        {
+            _audioSource.PlayOneShot(_reloadSound);
+        }
     }
 
     private IEnumerator FireLightCoroutine()

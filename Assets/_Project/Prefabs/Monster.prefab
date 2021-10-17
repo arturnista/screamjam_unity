@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6120723029355329460}
   - component: {fileID: 3802795736512706401}
+  - component: {fileID: 8341043518245483406}
   m_Layer: 0
   m_Name: RunningSound
   m_TagString: Untagged
@@ -43,7 +44,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fdac5c45ed0e7254487d34d507d049e4, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -159,7 +160,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -199,6 +200,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8341043518245483406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663737711183948982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a152a8306cc7a994a8a06cd39a6b4c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2997742606635059960
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,7 +311,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8007043987127966554
 Transform:
   m_ObjectHideFlags: 0
@@ -441,7 +454,8 @@ GameObject:
   - component: {fileID: 6448466524556486856}
   - component: {fileID: 4404681415329731322}
   - component: {fileID: 6448466524556486861}
-  - component: {fileID: 6448466524556486860}
+  - component: {fileID: 6790918572238806105}
+  - component: {fileID: 494518591}
   - component: {fileID: 6448466524556486862}
   - component: {fileID: 2772127410063331039}
   - component: {fileID: 2849350521329590739}
@@ -537,7 +551,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.8
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -653,7 +667,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -705,7 +719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 000f983aa7abb744580e2ed102f9a55f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6448466524556486860
+--- !u!114 &6790918572238806105
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -714,14 +728,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 6448466524556486871}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 139ffc8f22dd753489e35c80a4b6685b, type: 3}
+  m_Script: {fileID: 11500000, guid: a152a8306cc7a994a8a06cd39a6b4c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &494518591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6448466524556486871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45265d3c7cb8c5344a38959ee66c14d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _acceleration: 15
   _moveSpeed: 3
-  _wanderMoveSpeed: 2.5
-  _runMoveSpeed: 3.5
-  _dodgeMoveSpeed: 4
+  _detectMask:
+    serializedVersion: 2
+    m_Bits: 8192
   _runningSound: {fileID: 663737711183948982}
   _idleSounds:
   - {fileID: 8300000, guid: 86b21239e64565d459c3ca44fa787116, type: 3}
@@ -729,7 +755,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e2bcc384dc725fe4b8733d72f3027369, type: 3}
   _attackSounds:
   - {fileID: 8300000, guid: edfcae3c6954bf14898ecec0c9c55bfc, type: 3}
-  _currentState: 0
 --- !u!114 &6448466524556486862
 MonoBehaviour:
   m_ObjectHideFlags: 0
