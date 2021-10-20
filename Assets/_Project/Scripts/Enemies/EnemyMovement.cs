@@ -28,6 +28,7 @@ namespace Game.Entity
         [SerializeField]private EnemyState _currentState;
 
         private AudioSource _audioSource;
+        private AnimationEffects _animationEffects;
 
         private Seeker _aiSeeker;
         private EntityData _target;
@@ -41,6 +42,8 @@ namespace Game.Entity
         private bool _reachPosition;
         private float _attackTime;
 
+        private Coroutine _attackCoroutine;
+
         protected override void Awake()
         {
             base.Awake();
@@ -48,6 +51,7 @@ namespace Game.Entity
             _target = target.GetComponent<EntityData>();
             _aiSeeker = GetComponent<Seeker>();
             _audioSource = GetComponent<AudioSource>();
+            _animationEffects = GetComponentInChildren<AnimationEffects>();
 
             _entityData.LookDirection = Vector3.right;
             _reachPosition = true;
@@ -75,16 +79,26 @@ namespace Game.Entity
         private void OnEnable()
         {
             _entityData.Health.OnDamage += HandleDamage;
+            _animationEffects.OnAttackDetect += HandleDealDamage;
         }
 
         private void OnDisable()
         {
             _entityData.Health.OnDamage -= HandleDamage;
+            _animationEffects.OnAttackDetect -= HandleDealDamage;
         }
 
         private void HandleDamage(int dmg)
         {
             StartScared();
+        }
+
+        private void HandleDealDamage()
+        {
+            if (Vector3.Distance(_target.transform.position, transform.position) < _attackDistance)
+            {
+                _target.Health.DealDamage(1);
+            }
         }
 
         private void Update()
@@ -196,6 +210,7 @@ namespace Game.Entity
             if (Vector3.Distance(_target.transform.position, transform.position) < _attackDistance)
             {
                 StartPerformingAttack();
+                return;
             }
 
             _targetPosition = _target.transform.position;
@@ -211,7 +226,9 @@ namespace Game.Entity
         private void StartPerformingAttack()
         {
             _attackTime = 0f;
-            StartCoroutine(AttackCoroutine());
+            _currentState = EnemyState.PerformingAttack;
+            _targetPosition = transform.position;
+            _attackCoroutine = StartCoroutine(AttackCoroutine());
         }
 
         private void PerformingAttackUpdate()
@@ -221,17 +238,27 @@ namespace Game.Entity
 
         private IEnumerator AttackCoroutine()
         {
+            _animator.SetTrigger("Attack");
+            StopMovement();
             yield return new WaitForSeconds(1f);
-            if (Vector3.Distance(_target.transform.position, transform.position) < _attackDistance)
-            {
-                _target.Health.DealDamage(1);
-            }
+            StartMovement();
+
+            StartAttack();
+            _attackCoroutine = null;
         }
 #endregion
 
 #region Enemy Scared Behaviour
         private void StartScared()
         {
+            if (_attackCoroutine != null)
+            {
+                _animator.SetTrigger("Scared");
+                StartMovement();
+                StopCoroutine(_attackCoroutine);
+                _attackCoroutine = null;
+            }
+
             _currentState = EnemyState.Scared;
             _runningSound.SetActive(true);
 

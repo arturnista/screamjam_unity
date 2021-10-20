@@ -9,6 +9,7 @@ public class EntityHealth : MonoBehaviour
     public event DamageHandler OnDamage;
 
     [SerializeField] private List<AudioClip> _damageSounds = default;
+    [SerializeField] private ParticleSystem _damageEffect;
 
     private AudioSource _audioSource;
     
@@ -19,7 +20,14 @@ public class EntityHealth : MonoBehaviour
 
     public virtual void DealDamage(int damage)
     {
-        _audioSource.PlayOneShot(_damageSounds[Random.Range(0, _damageSounds.Count)]);
+        if (_damageSounds.Count > 0)
+        {
+            _audioSource.PlayOneShot(_damageSounds[Random.Range(0, _damageSounds.Count)]);
+        }
+        if (_damageEffect != null)
+        {
+            _damageEffect.Play();
+        }
         OnDamage?.Invoke(damage);
     }
 

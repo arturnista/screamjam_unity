@@ -104,7 +104,14 @@ namespace Game.Entity
                 }
             }
 
-            _animator.speed = _velocity.magnitude / 3f;
+            if (_isMoving)
+            {
+                _animator.speed = _velocity.magnitude / 3f;
+            }
+            else
+            {
+                _animator.speed = 1f;
+            }
             _rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
         }
 

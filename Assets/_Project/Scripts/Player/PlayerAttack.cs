@@ -26,6 +26,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _entityData = GetComponentInParent<EntityData>();
         _audioSource = GetComponentInParent<AudioSource>();
+        _audioSource.clip = _reloadSound;
     }
 
     private void OnEnable()
@@ -45,6 +46,7 @@ public class PlayerAttack : MonoBehaviour
         fireLight.gameObject.SetActive(false);
         firePoint.gameObject.SetActive(false);
         _musketArms.gameObject.SetActive(false);
+        _audioSource.Stop();
     }
     
     private void Update()
@@ -88,11 +90,11 @@ public class PlayerAttack : MonoBehaviour
         if (_attackTime > _reloadSound.length)
         {
             yield return new WaitForSeconds(_reloadSound.length - _attackTime);
-            _audioSource.PlayOneShot(_reloadSound);
+            _audioSource.Play();
         }
         else
         {
-            _audioSource.PlayOneShot(_reloadSound);
+            _audioSource.Play();
         }
     }
 
