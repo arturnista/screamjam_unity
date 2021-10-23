@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
         }
         else if (collider.gameObject.CompareTag("Enemy"))
         {
-            var health = collider.gameObject.GetComponent<EntityHealth>();
+            var health = collider.gameObject.GetComponentInParent<EntityHealth>();
             health.DealDamage(1);
         }
         Destroy(gameObject);

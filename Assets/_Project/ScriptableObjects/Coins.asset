@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24797c28d577b8d49ad6da883e018288, type: 3}
-  m_Name: Skull
+  m_Name: Coins
   m_EditorClassIdentifier: 
-  Name: Skull
-  Image: {fileID: 21300000, guid: eafb20be566f5714f854b73a4ec62227, type: 3}
+  Name: Coins
+  Image: {fileID: 21300000, guid: aaa919641cb75d04491bf52329199e61, type: 3}

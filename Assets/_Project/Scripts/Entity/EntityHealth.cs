@@ -8,8 +8,8 @@ public class EntityHealth : MonoBehaviour
     public delegate void DamageHandler(int damage);
     public event DamageHandler OnDamage;
 
-    [SerializeField] private List<AudioClip> _damageSounds = default;
-    [SerializeField] private ParticleSystem _damageEffect;
+    [SerializeField] protected List<AudioClip> _damageSounds = default;
+    [SerializeField] protected ParticleSystem _damageEffect;
 
     private AudioSource _audioSource;
     

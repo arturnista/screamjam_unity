@@ -20,7 +20,10 @@ public class PlayerAttack : MonoBehaviour
 
     private EntityData _entityData;
     private AudioSource _audioSource;
+
     private float _attackTime;
+    public float AttackTime => _attackTime;
+    public float ReloadCooldown => _reloadCooldown;
 
     private void Awake()
     {
@@ -89,7 +92,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (_attackTime > _reloadSound.length)
         {
-            yield return new WaitForSeconds(_reloadSound.length - _attackTime);
+            yield return new WaitForSeconds(_reloadSound.length - _attackTime + .9f);
             _audioSource.Play();
         }
         else

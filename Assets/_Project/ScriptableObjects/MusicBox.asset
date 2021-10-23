@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24797c28d577b8d49ad6da883e018288, type: 3}
-  m_Name: Chalice
+  m_Name: MusicBox
   m_EditorClassIdentifier: 
-  Name: Chalice
-  Image: {fileID: 21300000, guid: afee119f22c3a3e4a8e43f9955e6c0ae, type: 3}
+  Name: Music Box
+  Image: {fileID: 21300000, guid: 55e6bad79ad54074bbef9acf40e4e1d9, type: 3}

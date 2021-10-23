@@ -14,21 +14,30 @@ namespace Game.Entity
             Wander,
             Attack,
             PerformingAttack,
-            Scared
+            Scared,
+            Death
         }
 
+        [Header("Wander")]
+        [SerializeField] private float _wanderSpeed;
         [Header("Attack")]
+        [SerializeField] private float _attackSpeed;
         [SerializeField] private LayerMask _detectMask;
         [SerializeField] private float _attackDistance = 2f;
         [Header("SFX")]
         [SerializeField] private GameObject _runningSound;
         [SerializeField] private List<AudioClip> _idleSounds;
         [SerializeField] private List<AudioClip> _attackSounds;
+        [SerializeField] private List<AudioClip> _deathSounds;
 
-        [SerializeField]private EnemyState _currentState;
+        private EnemyState _currentState;
 
         private AudioSource _audioSource;
         private AnimationEffects _animationEffects;
+
+        private float _tensionIncrease;
+        private float _tension;
+        public float Tension => _tension;
 
         private Seeker _aiSeeker;
         private EntityData _target;
@@ -41,12 +50,17 @@ namespace Game.Entity
 
         private bool _reachPosition;
         private float _attackTime;
+        private float _wanderTime;
+        private float _scaredTime;
 
         private Coroutine _attackCoroutine;
 
         protected override void Awake()
         {
             base.Awake();
+
+            _tension = 1f;
+
             var target = GameObject.FindGameObjectWithTag("Player");
             _target = target.GetComponent<EntityData>();
             _aiSeeker = GetComponent<Seeker>();
@@ -79,18 +93,25 @@ namespace Game.Entity
         private void OnEnable()
         {
             _entityData.Health.OnDamage += HandleDamage;
+            GetComponent<EnemyHealth>().OnDeath += HandleDeath;
             _animationEffects.OnAttackDetect += HandleDealDamage;
         }
 
         private void OnDisable()
         {
             _entityData.Health.OnDamage -= HandleDamage;
+            GetComponent<EnemyHealth>().OnDeath -= HandleDeath;
             _animationEffects.OnAttackDetect -= HandleDealDamage;
         }
 
         private void HandleDamage(int dmg)
         {
             StartScared();
+        }
+
+        private void HandleDeath()
+        {
+            StartDeath();
         }
 
         private void HandleDealDamage()
@@ -103,6 +124,7 @@ namespace Game.Entity
 
         private void Update()
         {
+            _tension = Mathf.Clamp(_tension + _tensionIncrease * Time.deltaTime, 1f, 3f);
             switch (_currentState)
             {
                 case EnemyState.Wander:
@@ -147,9 +169,12 @@ namespace Game.Entity
                 else KeepAttack();
             }
 
+            // Decrease the max distance if the lamp is not active
+            float maxDistance = ItemSwitch.IsLampActive ? 15f : 8f;
+
             var direction = _target.transform.position - transform.position;
             // If player is far away from the enemy
-            if (direction.magnitude > 15f) return;
+            if (direction.magnitude > maxDistance) return;
             // If enemy doest not have line of sight with the player
             if (!CheckForLineOfSight()) return;
 
@@ -175,10 +200,14 @@ namespace Game.Entity
             float inverseDistance = (1f / distance) * 50f;
 
             _targetPosition = (Vector2)_target.transform.position + (Random.insideUnitCircle * inverseDistance);
+            _wanderTime = 5f;
         }
 
         private void StartWander()
         {
+            _tensionIncrease = -0.2f;
+            _moveSpeed = _wanderSpeed;
+
             _currentState = EnemyState.Wander;
             FindNewWanderPoint();
             _runningSound.SetActive(false);
@@ -187,12 +216,20 @@ namespace Game.Entity
         private void WanderUpdate()
         {
             if (_reachPosition) FindNewWanderPoint();
+            _wanderTime -= Time.deltaTime;
+            if (_wanderTime <= 0f)
+            {
+                FindNewWanderPoint();
+            }
         }
 #endregion
 
 #region Enemy Attack Behaviour
-        private void StartAttack()
+        public void StartAttack()
         {
+            _tensionIncrease = 0.7f;
+            _moveSpeed = _attackSpeed;
+
             _runningSound.SetActive(true);
             _audioSource.PlayOneShot(_attackSounds[Random.Range(0, _attackSounds.Count)]);
             
@@ -225,6 +262,7 @@ namespace Game.Entity
 #region Enemy Performing Attack Behaviour
         private void StartPerformingAttack()
         {
+            _tensionIncrease = 0.7f;
             _attackTime = 0f;
             _currentState = EnemyState.PerformingAttack;
             _targetPosition = transform.position;
@@ -251,6 +289,10 @@ namespace Game.Entity
 #region Enemy Scared Behaviour
         private void StartScared()
         {
+            _tensionIncrease = -0.2f;
+            _moveSpeed = _attackSpeed;
+            _scaredTime = 8f;
+            
             if (_attackCoroutine != null)
             {
                 _animator.SetTrigger("Scared");
@@ -270,8 +312,22 @@ namespace Game.Entity
         private void ScaredUpdate()
         {
             if (_reachPosition) StartWander();
+            _scaredTime -= Time.deltaTime;
+            if (_scaredTime < 0f)
+            {
+                StartWander();
+            }
         }
 #endregion
+        private void StartDeath()
+        {
+            _tension = 1f;
+            _tensionIncrease = 0f;
+
+            _currentState = EnemyState.Death;
+            _runningSound.SetActive(false);
+            _audioSource.PlayOneShot(_deathSounds[Random.Range(0, _deathSounds.Count)]);
+        }
 
         private void CreateNewPath()
         {

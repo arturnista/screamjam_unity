@@ -5,9 +5,13 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {
 
+    public delegate void InventoryUpdateHandler();
+    public event InventoryUpdateHandler OnInventoryUpdate;
+
     [SerializeField] private List<AudioClip> _pickupSounds = default;
 
     private List<ItemData> _inventory;
+    public List<ItemData> Inventory => _inventory;
     private AudioSource _audioSource;
 
     private void Awake()
@@ -34,6 +38,7 @@ public class PlayerInventory : MonoBehaviour
                 var inventoryItem = item.GetComponent<InventoryItem>();   
                 var itemData = inventoryItem.PickUp();
                 _inventory.Add(itemData);
+                OnInventoryUpdate?.Invoke();
 
                 if (_pickupSounds.Count > 0)
                 {
@@ -46,10 +51,20 @@ public class PlayerInventory : MonoBehaviour
                 if (_inventory.Count > 0)
                 {
                     var itemWasPlaced = ritual.PlaceItem(_inventory[0]);
-                    if (itemWasPlaced) _inventory.Remove(_inventory[0]);
+                    if (itemWasPlaced)
+                    {
+                        _inventory.Remove(_inventory[0]);
+                        OnInventoryUpdate?.Invoke();
+                        ritual.UpdateText(this);
+                    }
                 }
             }
         }
+    }
+
+    public ItemData GetItem(List<ItemData> items)
+    {
+        return _inventory.Find(x => items.Contains(x));
     }
 
 }

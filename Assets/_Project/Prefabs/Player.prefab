@@ -106,7 +106,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1399125949476624308}
   m_LocalRotation: {x: 0, y: 0, z: 0.0825473, w: 0.9965872}
-  m_LocalPosition: {x: -0.02, y: 0.401, z: 0}
+  m_LocalPosition: {x: -0.072, y: 0.463, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2113013756381591627}
@@ -424,7 +424,7 @@ SpriteRenderer:
   m_SortingLayerID: -2061509649
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 85bf800e85d7b0e46bb2fe8d4482c9de, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 507a8e4a2d44d214c8ad59fc326f404c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5756,7 +5756,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4376699907857960607}
   m_LocalRotation: {x: 0, y: 0, z: 0.0825473, w: 0.9965872}
-  m_LocalPosition: {x: -0.02, y: 0.401, z: 0}
+  m_LocalPosition: {x: -0.069, y: 0.455, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3247069379580775686}
@@ -5996,7 +5996,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 0.7
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -6049,7 +6049,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
+      scalar: 1
       minScalar: 0.5
       maxCurve:
         serializedVersion: 2
@@ -6165,7 +6165,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -6921,9 +6921,9 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.2
-          inSlope: 0
-          outSlope: 0
+          value: 0
+          inSlope: 2
+          outSlope: 2
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -6931,8 +6931,8 @@ ParticleSystem:
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 2
-          outSlope: 2
+          inSlope: 0
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0

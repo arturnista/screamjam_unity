@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24797c28d577b8d49ad6da883e018288, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  Name: Sword
-  Image: {fileID: 21300000, guid: ea10cb9b155e27c4dbac0a7336cf7b56, type: 3}
+  Name: Silver Blade
+  Image: {fileID: 21300000, guid: 35e34feefbf8980418a2cb66b152dac4, type: 3}
